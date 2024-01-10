@@ -9,7 +9,7 @@ class NotesService {
     this._pool = new Pool();
   }
 
-  addNote({ title, body, tags }) {
+  async addNote({ title, body, tags }) {
     const id = nanoid(16);
     const createdAt = new Date().toISOString();
     const updatedAt = createdAt;
@@ -19,7 +19,7 @@ class NotesService {
       values: [id, title, body, tags, createdAt, updatedAt],
     };
 
-    const result = this._pool.query(query);
+    const result = await this._pool.query(query);
 
     if (!result.rows[0].id) {
       throw new InvariantError('Catatan gagal ditambahkan');
